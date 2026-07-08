@@ -3,215 +3,285 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ACME — The Future, Delivered</title>
+  <title>Global Catalog — See What Others Miss</title>
   <style>
-    :root{--bg:#161616;--bg2:#262626;--bg3:#393939;--white:#f4f4f4;--dim:#8d8d8d;--cyan:#33b1ff;--cyan-dk:#1192e8;--green:#42be65;--purple:#be95ff;--sans:'Helvetica Neue',Arial,sans-serif;--mono:'Courier New',monospace;}
+    :root{--bg:#0a0f1a;--bg2:#111827;--bg3:#1e2d40;--bg4:#243447;--white:#f4f4f4;--dim:#8d8d8d;--dim2:#6f6f6f;--cyan:#33b1ff;--cyan-dk:#1192e8;--green:#42be65;--teal:#3ddbd9;--sans:'Helvetica Neue',Arial,sans-serif;--mono:'Courier New',monospace;}
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
     html{scroll-behavior:smooth;}
-    body{font-family:var(--sans);background:var(--bg);color:var(--white);line-height:1.5;}
-    nav{position:sticky;top:0;z-index:100;background:rgba(22,22,22,.95);border-bottom:1px solid var(--bg3);height:56px;display:flex;align-items:center;padding:0 40px;gap:32px;}
-    .nav-logo{font-size:22px;font-weight:900;letter-spacing:4px;color:var(--white);text-decoration:none;}
-    .nav-logo span{color:var(--cyan);}
-    .nav-links{margin-left:auto;display:flex;gap:0;list-style:none;}
-    .nav-links a{color:#c6c6c6;text-decoration:none;font-size:14px;padding:0 16px;height:56px;display:flex;align-items:center;transition:background .15s,color .15s;}
-    .nav-links a:hover{background:var(--bg3);color:var(--white);}
-    .nav-cta{background:var(--cyan) !important;color:var(--bg) !important;font-weight:700;}
+    body{font-family:var(--sans);background:var(--bg);color:var(--white);line-height:1.5;overflow-x:hidden;}
+    nav{position:sticky;top:0;z-index:200;background:rgba(10,15,26,.94);backdrop-filter:blur(16px);border-bottom:1px solid rgba(51,177,255,.12);height:60px;display:flex;align-items:center;padding:0 48px;gap:32px;}
+    .nav-brand{display:flex;align-items:center;gap:12px;text-decoration:none;}
+    .nav-icon{width:32px;height:32px;border:1.5px solid var(--cyan);border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative;}
+    .nav-icon::before{content:'';position:absolute;width:20px;height:20px;border:1px solid rgba(51,177,255,.4);border-radius:50%;}
+    .nav-icon::after{content:'';position:absolute;width:2px;height:14px;background:var(--cyan);top:50%;left:50%;transform:translate(-50%,-50%) rotate(-35deg);transform-origin:bottom center;}
+    .nav-name{font-size:15px;font-weight:700;letter-spacing:.5px;color:var(--white);}
+    .nav-name span{color:var(--cyan);}
+    .nav-links{margin-left:auto;display:flex;list-style:none;}
+    .nav-links a{color:#a8b4c0;text-decoration:none;font-size:13px;padding:0 16px;height:60px;display:flex;align-items:center;transition:color .15s,background .15s;}
+    .nav-links a:hover{color:var(--white);background:rgba(255,255,255,.04);}
+    .nav-cta{background:var(--cyan) !important;color:#0a0f1a !important;font-weight:700;padding:0 20px !important;}
     .nav-cta:hover{background:var(--cyan-dk) !important;color:var(--white) !important;}
-    .hero{min-height:90vh;display:flex;align-items:center;padding:80px 64px;background:radial-gradient(ellipse 80% 60% at 70% 40%,rgba(51,177,255,.12) 0%,transparent 60%),radial-gradient(ellipse 50% 50% at 10% 80%,rgba(190,149,255,.08) 0%,transparent 55%),var(--bg);position:relative;overflow:hidden;}
-    .hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(51,177,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(51,177,255,.04) 1px,transparent 1px);background-size:48px 48px;}
-    .hero-inner{position:relative;z-index:1;max-width:1200px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
-    .hero-eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--cyan);margin-bottom:24px;}
-    .hero-eyebrow::before{content:'';display:block;width:24px;height:2px;background:var(--cyan);}
-    h1{font-size:clamp(40px,5vw,68px);font-weight:300;line-height:1.1;letter-spacing:-1px;margin-bottom:28px;}
-    h1 strong{font-weight:900;color:var(--cyan);}
-    .hero-desc{font-size:18px;font-weight:300;line-height:1.7;color:rgba(244,244,244,.7);max-width:480px;margin-bottom:40px;}
-    .btn-row{display:flex;gap:16px;flex-wrap:wrap;}
-    .btn{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;font-size:14px;font-weight:700;font-family:var(--sans);text-decoration:none;cursor:pointer;border:none;transition:.15s;}
-    .btn-primary{background:var(--cyan);color:var(--bg);}
+    .hero{min-height:95vh;display:flex;align-items:center;padding:80px 64px;position:relative;overflow:hidden;}
+    .radar-bg{position:absolute;right:-80px;top:50%;transform:translateY(-50%);width:680px;height:680px;opacity:.13;}
+    .radar-ring{position:absolute;border-radius:50%;border:1px solid var(--cyan);}
+    .radar-ring:nth-child(1){inset:0;}
+    .radar-ring:nth-child(2){inset:15%;}
+    .radar-ring:nth-child(3){inset:30%;}
+    .radar-ring:nth-child(4){inset:45%;}
+    .radar-ring:nth-child(5){inset:60%;}
+    .radar-sweep{position:absolute;inset:0;border-radius:50%;overflow:hidden;}
+    .radar-sweep::before{content:'';position:absolute;top:50%;left:50%;width:50%;height:1.5px;background:linear-gradient(90deg,transparent,var(--cyan));transform-origin:left center;animation:rsweep 4s linear infinite;}
+    @keyframes rsweep{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+    .radar-cross{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
+    .radar-cross::before{content:'';position:absolute;width:100%;height:1px;background:rgba(51,177,255,.2);}
+    .radar-cross::after{content:'';position:absolute;width:1px;height:100%;background:rgba(51,177,255,.2);}
+    .blip{position:absolute;width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green);animation:blip 4s ease-in-out infinite;}
+    .blip:nth-child(7){top:28%;left:62%;animation-delay:.8s;}
+    .blip:nth-child(8){top:55%;left:73%;animation-delay:2.1s;}
+    .blip:nth-child(9){top:40%;left:48%;animation-delay:3.3s;}
+    @keyframes blip{0%,100%{opacity:0;transform:scale(0);}10%,90%{opacity:1;transform:scale(1);}50%{opacity:.6;transform:scale(.8);}}
+    .hero-content{position:relative;z-index:1;max-width:620px;}
+    .hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(51,177,255,.08);border:1px solid rgba(51,177,255,.25);padding:6px 14px;margin-bottom:32px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--cyan);}
+    .hero-tag::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:gpulse 2s ease-in-out infinite;}
+    @keyframes gpulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+    h1{font-size:clamp(38px,5vw,64px);font-weight:300;line-height:1.1;letter-spacing:-1px;margin-bottom:28px;}
+    h1 strong{font-weight:800;color:var(--cyan);}
+    h1 em{font-style:normal;color:var(--teal);}
+    .hero-sub{font-size:18px;font-weight:300;line-height:1.75;color:rgba(244,244,244,.65);margin-bottom:48px;max-width:520px;}
+    .btn-row{display:flex;gap:16px;flex-wrap:wrap;align-items:center;}
+    .btn{display:inline-flex;align-items:center;gap:10px;padding:15px 30px;font-size:14px;font-weight:700;font-family:var(--sans);text-decoration:none;transition:.15s;cursor:pointer;border:none;}
+    .btn-primary{background:var(--cyan);color:#0a0f1a;}
     .btn-primary:hover{background:var(--cyan-dk);color:var(--white);}
-    .btn-ghost{background:transparent;color:var(--white);border:1px solid rgba(244,244,244,.3);}
-    .btn-ghost:hover{background:rgba(244,244,244,.08);}
-    .hero-visual{display:flex;justify-content:center;align-items:center;}
-    .acme-badge{width:300px;height:300px;position:relative;display:flex;align-items:center;justify-content:center;}
-    .badge-ring{position:absolute;border-radius:50%;border:1px dashed rgba(51,177,255,.25);animation:spin linear infinite;}
-    .badge-ring:nth-child(1){width:290px;height:290px;animation-duration:22s;}
-    .badge-ring:nth-child(2){width:210px;height:210px;animation-duration:15s;animation-direction:reverse;}
-    .badge-ring:nth-child(3){width:130px;height:130px;animation-duration:10s;}
-    @keyframes spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
-    .ring-dot{position:absolute;top:0;left:50%;transform:translateX(-50%) translateY(-4px);width:8px;height:8px;border-radius:50%;background:var(--cyan);box-shadow:0 0 12px var(--cyan);}
-    .badge-center{width:100px;height:100px;background:linear-gradient(135deg,rgba(51,177,255,.15),rgba(190,149,255,.1));border:1px solid rgba(51,177,255,.35);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;z-index:1;}
-    .badge-logo{font-size:14px;font-weight:900;letter-spacing:5px;color:var(--white);}
-    .badge-sub{font-family:var(--mono);font-size:9px;color:var(--cyan);letter-spacing:1px;}
-    .logos-bar{background:var(--bg2);border-top:1px solid var(--bg3);border-bottom:1px solid var(--bg3);padding:28px 64px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
-    .logos-label{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);flex-shrink:0;margin-right:16px;}
-    .logos-list{display:flex;gap:40px;flex-wrap:wrap;align-items:center;}
-    .logo-item{font-family:var(--mono);font-size:12px;font-weight:700;color:#525252;letter-spacing:1px;}
-    .section-wrap{padding:96px 64px;max-width:1200px;margin:0 auto;}
-    .section-label{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--cyan);margin-bottom:16px;}
-    .section-title{font-size:clamp(28px,3vw,42px);font-weight:300;line-height:1.2;margin-bottom:16px;}
-    .section-title strong{font-weight:900;}
-    .section-sub{font-size:16px;color:rgba(244,244,244,.6);max-width:560px;line-height:1.7;margin-bottom:64px;}
-    .features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1px;background:var(--bg3);}
-    .feature-card{background:var(--bg2);padding:40px 32px;display:flex;flex-direction:column;gap:16px;transition:background .15s;position:relative;overflow:hidden;}
-    .feature-card::after{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:transparent;transition:background .2s;}
-    .feature-card:hover{background:var(--bg3);}
-    .feature-card:hover::after{background:var(--cyan);}
-    .feature-icon{width:48px;height:48px;background:rgba(51,177,255,.1);border:1px solid rgba(51,177,255,.2);display:flex;align-items:center;justify-content:center;font-size:22px;}
-    .feature-title{font-size:18px;font-weight:700;}
-    .feature-desc{font-size:14px;color:rgba(244,244,244,.6);line-height:1.7;}
-    .feature-link{margin-top:auto;font-size:13px;color:var(--cyan);text-decoration:none;}
-    .feature-link:hover{text-decoration:underline;}
-    .stats-outer{background:var(--bg2);border-top:1px solid var(--bg3);border-bottom:1px solid var(--bg3);padding:64px;}
-    .stats-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--bg3);}
-    .stat-box{background:var(--bg2);padding:40px 32px;display:flex;flex-direction:column;gap:8px;}
-    .stat-num{font-size:52px;font-weight:900;color:var(--cyan);line-height:1;font-family:var(--mono);}
-    .stat-num sup{font-size:24px;vertical-align:super;}
-    .stat-lbl{font-size:16px;font-weight:700;}
-    .stat-desc{font-size:13px;color:var(--dim);line-height:1.5;}
-    .testimonials{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;}
-    .tcard{background:var(--bg2);border:1px solid var(--bg3);padding:32px;display:flex;flex-direction:column;gap:20px;position:relative;}
-    .tcard::before{content:'"';position:absolute;top:16px;right:24px;font-size:72px;line-height:1;color:rgba(51,177,255,.12);font-family:Georgia,serif;}
-    .ttext{font-size:15px;line-height:1.7;color:rgba(244,244,244,.8);font-style:italic;}
-    .tauthor{display:flex;align-items:center;gap:12px;}
-    .avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;font-family:var(--mono);flex-shrink:0;}
-    .av-c{background:rgba(51,177,255,.2);color:var(--cyan);}
-    .av-g{background:rgba(66,190,101,.2);color:var(--green);}
-    .av-p{background:rgba(190,149,255,.2);color:var(--purple);}
-    .aname{font-size:14px;font-weight:700;}
-    .arole{font-size:12px;color:var(--dim);}
-    .pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;background:var(--bg3);}
-    .pcard{background:var(--bg2);padding:40px 32px;display:flex;flex-direction:column;gap:20px;position:relative;}
-    .pcard.featured{background:#0d2a4a;border:1px solid rgba(51,177,255,.4);}
-    .pbadge{position:absolute;top:-1px;right:32px;background:var(--cyan);color:var(--bg);font-size:11px;font-weight:900;letter-spacing:1px;padding:4px 12px;text-transform:uppercase;}
-    .ptier{font-family:var(--mono);font-size:12px;letter-spacing:2px;color:var(--dim);text-transform:uppercase;}
-    .pamount{font-size:52px;font-weight:900;color:var(--white);font-family:var(--mono);line-height:1;}
-    .pamount sup{font-size:24px;vertical-align:super;}
-    .pamount sub{font-size:16px;vertical-align:baseline;color:var(--dim);font-weight:400;}
+    .btn-outline{background:transparent;color:var(--white);border:1px solid rgba(255,255,255,.25);}
+    .btn-outline:hover{background:rgba(255,255,255,.06);}
+    .hero-stat-row{display:flex;gap:40px;margin-top:64px;padding-top:40px;border-top:1px solid rgba(51,177,255,.1);}
+    .hstat-val{font-family:var(--mono);font-size:28px;font-weight:700;color:var(--cyan);}
+    .hstat-lbl{font-size:12px;color:var(--dim);margin-top:4px;text-transform:uppercase;letter-spacing:.8px;}
+    .clients{background:var(--bg2);border-top:1px solid rgba(51,177,255,.08);border-bottom:1px solid rgba(51,177,255,.08);padding:28px 64px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+    .clients-lbl{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);flex-shrink:0;margin-right:16px;}
+    .clients-list{display:flex;gap:48px;flex-wrap:wrap;align-items:center;}
+    .client{font-family:var(--mono);font-size:12px;font-weight:700;color:#3d5166;letter-spacing:1px;}
+    .section{padding:96px 64px;max-width:1280px;margin:0 auto;}
+    .sec-label{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--cyan);margin-bottom:14px;}
+    .sec-title{font-size:clamp(28px,3vw,44px);font-weight:300;line-height:1.2;margin-bottom:16px;}
+    .sec-title strong{font-weight:800;}
+    .sec-sub{font-size:16px;color:rgba(244,244,244,.55);max-width:560px;line-height:1.75;margin-bottom:64px;}
+    .products-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1px;background:rgba(51,177,255,.08);}
+    .product-card{background:var(--bg2);padding:40px 36px;display:flex;flex-direction:column;gap:18px;position:relative;overflow:hidden;transition:background .2s;}
+    .product-card:hover{background:var(--bg3);}
+    .product-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:2px;background:transparent;transition:background .2s;}
+    .product-card:hover::before{background:linear-gradient(90deg,var(--cyan),var(--teal));}
+    .prod-range{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal);padding:3px 10px;border:1px solid rgba(61,219,217,.2);background:rgba(61,219,217,.05);width:fit-content;}
+    .prod-icon{font-size:36px;margin:4px 0;}
+    .prod-name{font-size:22px;font-weight:700;}
+    .prod-desc{font-size:14px;color:rgba(244,244,244,.6);line-height:1.7;}
+    .prod-specs{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;}
+    .spec-chip{font-family:var(--mono);font-size:11px;padding:3px 10px;background:rgba(51,177,255,.07);border:1px solid rgba(51,177,255,.15);color:var(--dim);}
+    .prod-link{margin-top:auto;font-size:13px;font-weight:700;color:var(--cyan);text-decoration:none;display:inline-flex;align-items:center;gap:6px;}
+    .prod-link:hover{text-decoration:underline;}
+    .how-outer{background:var(--bg2);border-top:1px solid rgba(51,177,255,.08);border-bottom:1px solid rgba(51,177,255,.08);padding:96px 64px;}
+    .how-inner{max-width:1280px;margin:0 auto;}
+    .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;background:rgba(51,177,255,.06);}
+    .step{background:var(--bg2);padding:40px 32px;display:flex;flex-direction:column;gap:16px;}
+    .step-num{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:2px;color:var(--dim);}
+    .step-icon{font-size:32px;}
+    .step-title{font-size:17px;font-weight:700;}
+    .step-desc{font-size:13px;color:rgba(244,244,244,.55);line-height:1.7;}
+    .stats-band{background:linear-gradient(135deg,#020d1a 0%,#0a1e35 100%);border-top:1px solid rgba(51,177,255,.15);border-bottom:1px solid rgba(51,177,255,.15);padding:64px;}
+    .stats-grid{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:rgba(51,177,255,.08);}
+    .sbox{background:linear-gradient(135deg,#020d1a,#0a1e35);padding:40px 32px;display:flex;flex-direction:column;gap:8px;}
+    .sval{font-family:var(--mono);font-size:48px;font-weight:700;color:var(--cyan);line-height:1;}
+    .sval sup{font-size:22px;vertical-align:super;}
+    .slbl{font-size:15px;font-weight:700;}
+    .sdesc{font-size:13px;color:var(--dim);line-height:1.5;}
+    .industries-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1px;background:rgba(51,177,255,.08);}
+    .ind-card{background:var(--bg2);padding:32px 24px;display:flex;flex-direction:column;align-items:flex-start;gap:12px;transition:background .15s;}
+    .ind-card:hover{background:var(--bg3);}
+    .ind-icon{font-size:28px;}
+    .ind-name{font-size:14px;font-weight:700;line-height:1.3;}
+    .ind-note{font-size:12px;color:var(--dim);line-height:1.5;}
+    .tgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;}
+    .tcard{background:var(--bg2);border:1px solid rgba(51,177,255,.1);padding:36px;display:flex;flex-direction:column;gap:20px;position:relative;}
+    .tcard::before{content:'"';position:absolute;top:20px;right:28px;font-size:64px;line-height:1;color:rgba(51,177,255,.1);font-family:Georgia,serif;}
+    .ttext{font-size:15px;line-height:1.75;color:rgba(244,244,244,.75);font-style:italic;}
+    .tauth{display:flex;align-items:center;gap:14px;}
+    .tavatar{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;font-family:var(--mono);flex-shrink:0;border:1px solid rgba(51,177,255,.2);}
+    .ta-c{background:rgba(51,177,255,.1);color:var(--cyan);}
+    .ta-t{background:rgba(61,219,217,.1);color:var(--teal);}
+    .ta-g{background:rgba(66,190,101,.1);color:var(--green);}
+    .tname{font-size:14px;font-weight:700;}
+    .trole{font-size:12px;color:var(--dim);}
+    .pgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;background:rgba(51,177,255,.08);}
+    .pcard{background:var(--bg2);padding:40px 36px;display:flex;flex-direction:column;gap:22px;position:relative;}
+    .pcard.featured{background:#061428;outline:1px solid rgba(51,177,255,.35);}
+    .pbadge{position:absolute;top:-1px;right:36px;background:var(--cyan);color:#0a0f1a;font-size:10px;font-weight:900;letter-spacing:1.5px;padding:4px 14px;text-transform:uppercase;}
+    .ptier{font-family:var(--mono);font-size:11px;letter-spacing:2px;color:var(--dim);text-transform:uppercase;}
+    .pamount{font-size:48px;font-weight:800;color:var(--white);font-family:var(--mono);line-height:1;}
+    .pamount sup{font-size:22px;vertical-align:super;}
+    .pamount sub{font-size:15px;vertical-align:baseline;color:var(--dim);font-weight:400;}
     .pdesc{font-size:14px;color:var(--dim);}
-    .pfeatures{list-style:none;display:flex;flex-direction:column;gap:12px;}
-    .pfeatures li{font-size:14px;display:flex;gap:10px;align-items:flex-start;color:rgba(244,244,244,.8);}
-    .pfeatures li::before{content:"✓";color:var(--green);font-weight:900;flex-shrink:0;}
-    .pfeatures li.no::before{content:"✕";color:var(--bg3);}
-    .pfeatures li.no{color:var(--bg3);}
-    .pbtn{margin-top:auto;padding:14px;font-size:14px;font-weight:700;text-align:center;text-decoration:none;display:block;border:1px solid rgba(244,244,244,.2);color:var(--white);transition:background .15s;font-family:var(--sans);}
-    .pbtn:hover{background:rgba(244,244,244,.08);}
-    .pbtn.primary{background:var(--cyan);color:var(--bg);border-color:transparent;}
+    .plist{list-style:none;display:flex;flex-direction:column;gap:12px;}
+    .plist li{font-size:14px;display:flex;gap:10px;align-items:flex-start;color:rgba(244,244,244,.8);}
+    .plist li::before{content:"✓";color:var(--green);font-weight:900;flex-shrink:0;}
+    .plist li.no::before{content:"–";color:var(--bg4);}
+    .plist li.no{color:#3d5166;}
+    .pbtn{margin-top:auto;padding:15px;font-size:14px;font-weight:700;text-align:center;text-decoration:none;display:block;font-family:var(--sans);border:1px solid rgba(51,177,255,.25);color:var(--white);transition:background .15s;}
+    .pbtn:hover{background:rgba(51,177,255,.08);}
+    .pbtn.primary{background:var(--cyan);color:#0a0f1a;border-color:transparent;}
     .pbtn.primary:hover{background:var(--cyan-dk);color:var(--white);}
-    .cta-band{background:linear-gradient(135deg,#001d6c 0%,#0043ce 100%);padding:80px 64px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:40px;border-top:1px solid rgba(51,177,255,.2);}
-    .cta-band h2{font-size:36px;font-weight:300;margin-bottom:12px;}
-    .cta-band h2 strong{font-weight:900;}
-    .cta-band p{font-size:16px;color:rgba(255,255,255,.7);max-width:480px;}
-    footer{background:var(--bg2);border-top:1px solid var(--bg3);padding:48px 64px 32px;}
-    .footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px;}
-    .footer-brand p{font-size:13px;color:var(--dim);line-height:1.7;margin-top:12px;max-width:260px;}
-    .footer-col h4{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);margin-bottom:16px;}
-    .footer-col ul{list-style:none;display:flex;flex-direction:column;gap:10px;}
-    .footer-col a{font-size:14px;color:#c6c6c6;text-decoration:none;}
-    .footer-col a:hover{color:var(--cyan);}
-    .footer-bottom{border-top:1px solid var(--bg3);padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
-    .footer-bottom p{font-size:12px;color:#525252;}
-    .footer-bottom a{color:#525252;text-decoration:none;}
-    .footer-bottom a:hover{color:var(--cyan);}
-    @media(max-width:900px){.hero{padding:60px 24px;}.hero-inner{grid-template-columns:1fr;gap:48px;}.hero-visual{display:none;}.section-wrap{padding:64px 24px;}.logos-bar,.stats-outer,.cta-band{padding:40px 24px;}footer{padding:40px 24px 24px;}.footer-top{grid-template-columns:1fr 1fr;}}
-    @media(max-width:600px){.footer-top{grid-template-columns:1fr;}nav{padding:0 16px;}.nav-links li:not(:last-child){display:none;}}
+    .cta-band{background:radial-gradient(ellipse 80% 100% at 50% 50%,rgba(0,67,206,.35) 0%,transparent 70%),linear-gradient(135deg,#020d1a,#061428);padding:100px 64px;text-align:center;border-top:1px solid rgba(51,177,255,.12);position:relative;overflow:hidden;}
+    .cta-band::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(51,177,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(51,177,255,.03) 1px,transparent 1px);background-size:40px 40px;}
+    .cta-inner{position:relative;z-index:1;max-width:640px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:24px;}
+    .cta-band h2{font-size:clamp(32px,4vw,52px);font-weight:300;line-height:1.15;}
+    .cta-band h2 strong{font-weight:800;color:var(--cyan);}
+    .cta-band p{font-size:17px;color:rgba(244,244,244,.6);line-height:1.7;}
+    footer{background:var(--bg2);border-top:1px solid rgba(51,177,255,.08);padding:56px 64px 32px;}
+    .footer-grid{display:grid;grid-template-columns:2.5fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px;}
+    .fbrand-tagline{font-size:13px;color:var(--dim);line-height:1.7;margin-top:14px;max-width:280px;}
+    .fcol h4{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim2);margin-bottom:18px;}
+    .fcol ul{list-style:none;display:flex;flex-direction:column;gap:12px;}
+    .fcol a{font-size:13px;color:#6b8199;text-decoration:none;transition:color .15s;}
+    .fcol a:hover{color:var(--cyan);}
+    .fbot{border-top:1px solid rgba(51,177,255,.07);padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+    .fbot p,.fbot a{font-size:12px;color:#3d5166;text-decoration:none;}
+    .fbot a:hover{color:var(--cyan);}
+    @media(max-width:960px){.hero{padding:64px 24px;}.radar-bg{display:none;}.section,.how-outer{padding:64px 24px;}.clients,.stats-band,.cta-band{padding:40px 24px;}footer{padding:40px 24px 24px;}.footer-grid{grid-template-columns:1fr 1fr;}}
+    @media(max-width:600px){.footer-grid{grid-template-columns:1fr;}nav{padding:0 20px;}.nav-links li:not(:last-child){display:none;}.hero-stat-row{gap:24px;}}
   </style>
 </head>
 <body>
 <nav>
-  <a href="#" class="nav-logo">ACM<span>E</span></a>
+  <a href="#" class="nav-brand"><div class="nav-icon"></div><span class="nav-name">Global <span>Catalog</span></span></a>
   <ul class="nav-links">
-    <li><a href="#features">Products</a></li>
-    <li><a href="#stats">Company</a></li>
-    <li><a href="#testimonials">Customers</a></li>
+    <li><a href="#products">Products</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#industries">Industries</a></li>
     <li><a href="#pricing">Pricing</a></li>
-    <li><a href="#" class="nav-cta">Get Started</a></li>
+    <li><a href="#contact" class="nav-cta">Request Demo</a></li>
   </ul>
 </nav>
 <div class="hero">
-  <div class="hero-inner">
-    <div>
-      <div class="hero-eyebrow">Innovating since 1952</div>
-      <h1>The Future,<br/><strong>Delivered.</strong></h1>
-      <p class="hero-desc">ACME builds the tools, platforms, and solutions that power tomorrow's world — from rocket-powered skateboards to quantum-grade anvil logistics. Trusted by cartoon characters everywhere.</p>
-      <div class="btn-row">
-        <a href="#features" class="btn btn-primary">Explore Products &rarr;</a>
-        <a href="#pricing" class="btn btn-ghost">View Pricing</a>
-      </div>
+  <div class="radar-bg">
+    <div class="radar-ring"></div><div class="radar-ring"></div><div class="radar-ring"></div><div class="radar-ring"></div><div class="radar-ring"></div>
+    <div class="radar-sweep"></div>
+    <div class="radar-cross"></div>
+    <div class="blip"></div><div class="blip"></div><div class="blip"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-tag">Live Radar Intelligence Platform</div>
+    <h1>See What<br/><strong>Others</strong><br/><em>Miss.</em></h1>
+    <p class="hero-sub">Global Catalog delivers next-generation radar systems for defence, aviation, maritime, and weather intelligence. Precision detection at any range, in any condition, on any terrain.</p>
+    <div class="btn-row">
+      <a href="#products" class="btn btn-primary">Explore Radar Systems &rarr;</a>
+      <a href="#how" class="btn btn-outline">How It Works</a>
     </div>
-    <div class="hero-visual">
-      <div class="acme-badge">
-        <div class="badge-ring"><div class="ring-dot"></div></div>
-        <div class="badge-ring"><div class="ring-dot"></div></div>
-        <div class="badge-ring"><div class="ring-dot"></div></div>
-        <div class="badge-center"><div class="badge-logo">ACME</div><div class="badge-sub">EST. 1952</div></div>
-      </div>
+    <div class="hero-stat-row">
+      <div><div class="hstat-val">500km</div><div class="hstat-lbl">Max Detection Range</div></div>
+      <div><div class="hstat-val">0.01&deg;</div><div class="hstat-lbl">Angular Resolution</div></div>
+      <div><div class="hstat-val">99.97%</div><div class="hstat-lbl">Uptime SLA</div></div>
     </div>
   </div>
 </div>
-<div class="logos-bar">
-  <span class="logos-label">Trusted by</span>
-  <div class="logos-list">
-    <span class="logo-item">ROADRUNNER INC</span>
-    <span class="logo-item">COYOTE &amp; CO</span>
-    <span class="logo-item">LOONEY LABS</span>
-    <span class="logo-item">ANVIL INDUSTRIES</span>
-    <span class="logo-item">JETPACK VENTURES</span>
-    <span class="logo-item">DYNAMITE LLC</span>
+<div class="clients">
+  <span class="clients-lbl">Trusted by</span>
+  <div class="clients-list">
+    <span class="client">NATO COMMAND</span><span class="client">EUROCONTROL</span><span class="client">US COAST GUARD</span><span class="client">WMO GLOBAL</span><span class="client">SKYWATCH AVIATION</span><span class="client">ARCTIC SENTINEL</span>
   </div>
 </div>
-<div id="features" class="section-wrap">
-  <div class="section-label">Our Products</div>
-  <h2 class="section-title">Everything you need to <strong>outrun anything.</strong></h2>
-  <p class="section-sub">From delivery drones to hypersonic mail tubes, ACME's product suite covers every use case imaginable — and several that aren't.</p>
-  <div class="features-grid">
-    <div class="feature-card"><div class="feature-icon">&#128640;</div><div class="feature-title">Rocket Platform</div><p class="feature-desc">Strapped-on or standalone, our ACME Rocket Series delivers payload to any destination in under 3 seconds flat. Guarantee subject to wind conditions.</p><a href="#" class="feature-link">Learn more &rarr;</a></div>
-    <div class="feature-card"><div class="feature-icon">&#128424;</div><div class="feature-title">Anvil Logistics</div><p class="feature-desc">Precision delivery of heavy objects from altitude. Our patented GravTech&trade; ensures 99.9% on-target accuracy. The 0.1% is on you.</p><a href="#" class="feature-link">Learn more &rarr;</a></div>
-    <div class="feature-card"><div class="feature-icon">&#128444;</div><div class="feature-title">Instant Tunneling</div><p class="feature-desc">Deploy a realistic tunnel painting on any rock face. Enemies may walk into it. You may also walk into it. Results vary by species.</p><a href="#" class="feature-link">Learn more &rarr;</a></div>
-    <div class="feature-card"><div class="feature-icon">&#127929;</div><div class="feature-title">ACME RocketSkate&trade;</div><p class="feature-desc">Strap on and hit Mach 1 before breakfast. The industry's leading personal transport solution. Helmet not included. No refunds.</p><a href="#" class="feature-link">Learn more &rarr;</a></div>
-    <div class="feature-card"><div class="feature-icon">&#128301;</div><div class="feature-title">Surveillance Suite</div><p class="feature-desc">Track your targets in real time with our ACME Spy-Scope 9000. Collapsible for stealth ops. Does not work if target is faster than light.</p><a href="#" class="feature-link">Learn more &rarr;</a></div>
-    <div class="feature-card"><div class="feature-icon">&#129522;</div><div class="feature-title">Super Magnet</div><p class="feature-desc">Industrial-strength electromagnet. Attracts anything metal within a 2-mile radius. Includes a 30-second grace period to reconsider your decision.</p><a href="#" class="feature-link">Learn more &rarr;</a></div>
+<div id="products" class="section">
+  <div class="sec-label">Radar Systems</div>
+  <h2 class="sec-title">Built for <strong>every mission profile.</strong></h2>
+  <p class="sec-sub">From compact coastal surveillance units to long-range strategic arrays, our catalog covers every operational requirement.</p>
+  <div class="products-grid">
+    <div class="product-card"><div class="prod-range">Air Surveillance</div><div class="prod-icon">&#9992;</div><div class="prod-name">AeroScan X9</div><p class="prod-desc">Long-range 3D air surveillance radar for civilian and military air traffic management. Detects and tracks up to 1,200 simultaneous targets with sub-second refresh rates.</p><div class="prod-specs"><span class="spec-chip">Range: 450 km</span><span class="spec-chip">Targets: 1,200</span><span class="spec-chip">Band: S-Band</span><span class="spec-chip">MTBF: 5,000 h</span></div><a href="#" class="prod-link">View datasheet &rarr;</a></div>
+    <div class="product-card"><div class="prod-range">Maritime</div><div class="prod-icon">&#9875;</div><div class="prod-name">CoastalGuard M4</div><p class="prod-desc">Compact solid-state maritime radar designed for port surveillance, vessel traffic management, and coastline security. Operates in all weather, including heavy seas.</p><div class="prod-specs"><span class="spec-chip">Range: 120 km</span><span class="spec-chip">IP67 Rated</span><span class="spec-chip">Band: X-Band</span><span class="spec-chip">Sea State: 6</span></div><a href="#" class="prod-link">View datasheet &rarr;</a></div>
+    <div class="product-card"><div class="prod-range">Weather</div><div class="prod-icon">&#127783;</div><div class="prod-name">StormEye WX-7</div><p class="prod-desc">Doppler weather radar for precipitation measurement, storm tracking, and wind profiling. Dual-polarisation technology delivers unmatched accuracy for meteorological services.</p><div class="prod-specs"><span class="spec-chip">Range: 300 km</span><span class="spec-chip">Dual-Pol</span><span class="spec-chip">Band: C-Band</span><span class="spec-chip">Update: 5 min</span></div><a href="#" class="prod-link">View datasheet &rarr;</a></div>
+    <div class="product-card"><div class="prod-range">Ground Surveillance</div><div class="prod-icon">&#128065;</div><div class="prod-name">SentryGround GS-3</div><p class="prod-desc">Portable battlefield surveillance radar for detecting ground vehicles, personnel, and low-altitude threats. Operates in cluttered, mountainous, and urban environments.</p><div class="prod-specs"><span class="spec-chip">Range: 40 km</span><span class="spec-chip">Man-Portable</span><span class="spec-chip">Band: Ku-Band</span><span class="spec-chip">Setup: &lt;10 min</span></div><a href="#" class="prod-link">View datasheet &rarr;</a></div>
+    <div class="product-card"><div class="prod-range">Space &amp; Orbital</div><div class="prod-icon">&#127760;</div><div class="prod-name">OrbitalWatch OW-1</div><p class="prod-desc">High-power phased array radar for space object surveillance and debris tracking. Catalogues orbital objects from LEO to GEO with centimetre-level precision.</p><div class="prod-specs"><span class="spec-chip">Range: 36,000 km</span><span class="spec-chip">Phased Array</span><span class="spec-chip">Band: UHF</span><span class="spec-chip">Objects: 200k+</span></div><a href="#" class="prod-link">View datasheet &rarr;</a></div>
+    <div class="product-card"><div class="prod-range">Counter-UAS</div><div class="prod-icon">&#128248;</div><div class="prod-name">DroneShield DS-12</div><p class="prod-desc">Compact counter-drone radar designed to detect, classify, and track small UAVs in complex RF environments. Integrates with effector systems for full kill-chain coverage.</p><div class="prod-specs"><span class="spec-chip">Range: 15 km</span><span class="spec-chip">Micro-UAV</span><span class="spec-chip">Band: Ka-Band</span><span class="spec-chip">Latency: 50ms</span></div><a href="#" class="prod-link">View datasheet &rarr;</a></div>
   </div>
 </div>
-<div class="stats-outer" id="stats">
-  <div class="stats-inner">
-    <div class="stat-box"><div class="stat-num">72<sup>+</sup></div><div class="stat-lbl">Years in Business</div><div class="stat-desc">Pioneering questionable technology since 1952.</div></div>
-    <div class="stat-box"><div class="stat-num">99.9<sup>%</sup></div><div class="stat-lbl">Delivery Success Rate</div><div class="stat-desc">The remaining 0.1% is considered "character building."</div></div>
-    <div class="stat-box"><div class="stat-num">4.2<sup>M</sup></div><div class="stat-lbl">Products Shipped</div><div class="stat-desc">Across 14 dimensions and 3 cartoon universes.</div></div>
-    <div class="stat-box"><div class="stat-num">&infin;</div><div class="stat-lbl">Explosions Caused</div><div class="stat-desc">Each one a testament to ACME's innovative spirit.</div></div>
+<div id="how" class="how-outer">
+  <div class="how-inner">
+    <div class="sec-label">How It Works</div>
+    <h2 class="sec-title">From signal to <strong>actionable intelligence.</strong></h2>
+    <p class="sec-sub">Our end-to-end pipeline turns raw radar returns into operationally ready intelligence in milliseconds.</p>
+    <div class="steps">
+      <div class="step"><div class="step-num">01</div><div class="step-icon">&#128225;</div><div class="step-title">Signal Emission</div><p class="step-desc">Our phased-array antennas emit precisely shaped RF pulses, optimised for the target environment and operational band.</p></div>
+      <div class="step"><div class="step-num">02</div><div class="step-icon">&#128246;</div><div class="step-title">Return Processing</div><p class="step-desc">Reflected signals are captured and fed into our FPGA-accelerated signal processor, filtering clutter and noise in real time.</p></div>
+      <div class="step"><div class="step-num">03</div><div class="step-icon">&#129504;</div><div class="step-title">AI Classification</div><p class="step-desc">Our onboard AI classifies detected objects by type, trajectory, and threat level using a library of 50,000+ radar signatures.</p></div>
+      <div class="step"><div class="step-num">04</div><div class="step-icon">&#128202;</div><div class="step-title">Intelligence Delivery</div><p class="step-desc">Processed tracks and alerts are pushed to command systems, dashboards, or third-party C2 platforms via secure APIs.</p></div>
+    </div>
   </div>
 </div>
-<div id="testimonials" class="section-wrap">
-  <div class="section-label">Customer Stories</div>
-  <h2 class="section-title">Don't take our word <strong>for it.</strong></h2>
-  <p class="section-sub">Hear from the customers who've relied on ACME products — with varying degrees of success.</p>
-  <div class="testimonials">
-    <div class="tcard"><p class="ttext">I ordered the RocketSkate&trade; on a Monday. By Tuesday I had crossed three state lines and was briefly airborne over the Grand Canyon. 11/10 would recommend.</p><div class="tauthor"><div class="avatar av-c">WC</div><div><div class="aname">Wile E. Coyote</div><div class="arole">Strategic Pursuit Director, Desert Ops Inc.</div></div></div></div>
-    <div class="tcard"><p class="ttext">ACME's Instant Tunnel Kit saved us weeks of excavation. The setup took 4 minutes. The only downside was that our CFO walked into the painted one.</p><div class="tauthor"><div class="avatar av-g">RR</div><div><div class="aname">Road Runner</div><div class="arole">VP of Evasion, Speedster Corp.</div></div></div></div>
-    <div class="tcard"><p class="ttext">The Super Magnet pulled our entire server rack out the window. We lost production for 6 minutes. Honestly, the best 6 minutes of my life.</p><div class="tauthor"><div class="avatar av-p">BB</div><div><div class="aname">Bugs Bunny</div><div class="arole">CTO, Looney Labs</div></div></div></div>
+<div class="stats-band">
+  <div class="stats-grid">
+    <div class="sbox"><div class="sval">38<sup>+</sup></div><div class="slbl">Countries Deployed</div><div class="sdesc">Our systems operate across six continents and two polar installations.</div></div>
+    <div class="sbox"><div class="sval">2,400<sup>+</sup></div><div class="slbl">Units in Service</div><div class="sdesc">From border posts to international airports and naval fleets.</div></div>
+    <div class="sbox"><div class="sval">500km</div><div class="slbl">Max Range</div><div class="sdesc">Best-in-class detection range for long-range surveillance missions.</div></div>
+    <div class="sbox"><div class="sval">99.97<sup>%</sup></div><div class="slbl">Uptime SLA</div><div class="sdesc">Mission-critical reliability backed by 24/7 global support.</div></div>
   </div>
 </div>
-<div id="pricing" class="section-wrap" style="padding-top:0;">
-  <div class="section-label">Pricing</div>
-  <h2 class="section-title">Simple, <strong>transparent pricing.</strong></h2>
-  <p class="section-sub">No hidden fees. No assembly required. (Assembly very much required.)</p>
-  <div class="pricing-grid">
-    <div class="pcard"><div class="ptier">Starter</div><div class="pamount"><sup>$</sup>29<sub>/mo</sub></div><p class="pdesc">For individuals who occasionally need to catch a roadrunner.</p><ul class="pfeatures"><li>5 rocket launches / month</li><li>1 anvil drop included</li><li>Basic tunnel kit (2 tunnels)</li><li class="no">RocketSkate&trade; access</li><li class="no">Super Magnet module</li><li class="no">Priority support</li></ul><a href="#" class="pbtn">Get Started</a></div>
-    <div class="pcard featured"><div class="pbadge">Most Popular</div><div class="ptier">Professional</div><div class="pamount"><sup>$</sup>99<sub>/mo</sub></div><p class="pdesc">For dedicated pursuers with ambitious quarterly targets.</p><ul class="pfeatures"><li>Unlimited rocket launches</li><li>20 anvil drops included</li><li>Pro tunnel kit (unlimited)</li><li>RocketSkate&trade; access</li><li>Super Magnet module</li><li class="no">Priority support</li></ul><a href="#" class="pbtn primary">Get Started</a></div>
-    <div class="pcard"><div class="ptier">Enterprise</div><div class="pamount"><sup>$</sup>499<sub>/mo</sub></div><p class="pdesc">For large organisations with complex multi-canyon operations.</p><ul class="pfeatures"><li>Unlimited everything</li><li>Dedicated anvil warehouse</li><li>Custom tunnel dimensions</li><li>Full RocketSkate&trade; fleet</li><li>Industrial Super Magnet</li><li>24/7 Priority support</li></ul><a href="#" class="pbtn">Contact Sales</a></div>
+<div id="industries" class="section">
+  <div class="sec-label">Industries</div>
+  <h2 class="sec-title">Radar solutions for <strong>every sector.</strong></h2>
+  <p class="sec-sub">Whether you're managing air corridors, protecting coastlines, or tracking orbital debris — we have a system for you.</p>
+  <div class="industries-grid">
+    <div class="ind-card"><div class="ind-icon">&#9992;</div><div class="ind-name">Aviation &amp; ATC</div><div class="ind-note">Primary and secondary surveillance for civil and military airspace.</div></div>
+    <div class="ind-card"><div class="ind-icon">&#128674;</div><div class="ind-name">Defence &amp; Security</div><div class="ind-note">Strategic air defence, border surveillance, and force protection.</div></div>
+    <div class="ind-card"><div class="ind-icon">&#9875;</div><div class="ind-name">Maritime &amp; Ports</div><div class="ind-note">Vessel tracking, port management, and coastal protection.</div></div>
+    <div class="ind-card"><div class="ind-icon">&#127783;</div><div class="ind-name">Meteorology</div><div class="ind-note">National weather networks, storm warning, and climate research.</div></div>
+    <div class="ind-card"><div class="ind-icon">&#127760;</div><div class="ind-name">Space &amp; Orbital</div><div class="ind-note">Space situational awareness and debris catalogue maintenance.</div></div>
+    <div class="ind-card"><div class="ind-icon">&#127959;</div><div class="ind-name">Critical Infrastructure</div><div class="ind-note">Perimeter security for power plants, refineries, and data centres.</div></div>
+    <div class="ind-card"><div class="ind-icon">&#128248;</div><div class="ind-name">Counter-UAS</div><div class="ind-note">Detect, track, and neutralise unauthorised drone activity.</div></div>
+    <div class="ind-card"><div class="ind-icon">&#128736;</div><div class="ind-name">Industrial &amp; Mining</div><div class="ind-note">Level measurement, collision avoidance, and site monitoring.</div></div>
   </div>
 </div>
-<div class="cta-band">
-  <div><h2>Ready to <strong>catch your roadrunner?</strong></h2><p>Join over 4 million customers who trust ACME to deliver results — or at least entertaining failures.</p></div>
-  <div class="btn-row"><a href="#" class="btn btn-primary">Start Free Trial &rarr;</a><a href="#" class="btn btn-ghost">Talk to Sales</a></div>
+<div class="section" style="padding-top:0;">
+  <div class="sec-label">Testimonials</div>
+  <h2 class="sec-title">Trusted by the world's <strong>most demanding operators.</strong></h2>
+  <p class="sec-sub">Our customers operate in the most challenging environments on earth — and beyond.</p>
+  <div class="tgrid">
+    <div class="tcard"><p class="ttext">We replaced three legacy systems with a single AeroScan X9. Coverage doubled, maintenance costs dropped 60%, and our controllers have never had a clearer picture.</p><div class="tauth"><div class="tavatar ta-c">MR</div><div><div class="tname">M. Reyes</div><div class="trole">Director of ATC Systems, Eurocontrol</div></div></div></div>
+    <div class="tcard"><p class="ttext">StormEye WX-7 gave us 40-minute advance warning on a Category 4 landfall that our previous system missed entirely. That warning saved thousands of lives.</p><div class="tauth"><div class="tavatar ta-t">KN</div><div><div class="tname">K. Nakamura</div><div class="trole">Chief Meteorologist, WMO Pacific Centre</div></div></div></div>
+    <div class="tcard"><p class="ttext">The DroneShield DS-12 detected an incursion at 11km and classified the threat in under 200ms. For critical infrastructure protection, that response time is everything.</p><div class="tauth"><div class="tavatar ta-g">SO</div><div><div class="tname">S. Okonkwo</div><div class="trole">Head of Security, Arctic Sentinel Operations</div></div></div></div>
+  </div>
+</div>
+<div id="pricing" class="section" style="padding-top:0;">
+  <div class="sec-label">Licensing &amp; Support</div>
+  <h2 class="sec-title">Flexible plans for <strong>every operation.</strong></h2>
+  <p class="sec-sub">Hardware is quoted separately. These plans cover software licensing, data services, and mission support.</p>
+  <div class="pgrid">
+    <div class="pcard"><div class="ptier">Standard</div><div class="pamount"><sup>$</sup>4,900<sub>/mo</sub></div><p class="pdesc">For single-site installations with standard operational requirements.</p><ul class="plist"><li>1 radar unit licensed</li><li>Intelligence Suite</li><li>Standard API access</li><li>99.5% uptime SLA</li><li>Business hours support</li><li class="no">Multi-sensor fusion</li><li class="no">Custom AI signatures</li></ul><a href="#" class="pbtn">Get Started</a></div>
+    <div class="pcard featured"><div class="pbadge">Most Popular</div><div class="ptier">Operations</div><div class="pamount"><sup>$</sup>14,900<sub>/mo</sub></div><p class="pdesc">For multi-site operators requiring high-availability and fusion capabilities.</p><ul class="plist"><li>Up to 10 radar units</li><li>Full Intelligence Suite</li><li>Priority API + webhooks</li><li>99.9% uptime SLA</li><li>24/7 NOC support</li><li>Multi-sensor fusion</li><li class="no">Custom AI signatures</li></ul><a href="#" class="pbtn primary">Get Started</a></div>
+    <div class="pcard"><div class="ptier">Strategic</div><div class="pamount">Custom</div><p class="pdesc">For national operators, defence agencies, and large-scale deployments.</p><ul class="plist"><li>Unlimited radar units</li><li>Classified intelligence feeds</li><li>Dedicated API infra</li><li>99.97% uptime SLA</li><li>Dedicated mission team</li><li>Multi-sensor fusion</li><li>Custom AI signatures</li></ul><a href="#" class="pbtn">Contact Sales</a></div>
+  </div>
+</div>
+<div id="contact" class="cta-band">
+  <div class="cta-inner">
+    <div class="sec-label" style="text-align:center;">Get Started</div>
+    <h2>Ready to see <strong>further</strong>?</h2>
+    <p>Schedule a live demo with our radar engineers and see Global Catalog's systems in action — live data, real-world scenarios, no sales script.</p>
+    <div class="btn-row" style="justify-content:center;">
+      <a href="#" class="btn btn-primary">Request a Demo &rarr;</a>
+      <a href="#" class="btn btn-outline">Download Brochure</a>
+    </div>
+  </div>
 </div>
 <footer>
-  <div class="footer-top">
-    <div class="footer-brand"><div style="font-size:22px;font-weight:900;letter-spacing:4px;">ACM<span style="color:#33b1ff">E</span></div><p>Building the tools that power tomorrow's pursuits. Headquartered in the desert, shipping worldwide since 1952.</p></div>
-    <div class="footer-col"><h4>Products</h4><ul><li><a href="#">Rocket Platform</a></li><li><a href="#">Anvil Logistics</a></li><li><a href="#">Tunnel Kit</a></li><li><a href="#">RocketSkate&trade;</a></li><li><a href="#">Super Magnet</a></li></ul></div>
-    <div class="footer-col"><h4>Company</h4><ul><li><a href="#">About ACME</a></li><li><a href="#">Careers</a></li><li><a href="#">Press</a></li><li><a href="#">Blog</a></li><li><a href="#">Contact</a></li></ul></div>
-    <div class="footer-col"><h4>Legal</h4><ul><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms of Service</a></li><li><a href="#">Liability Waiver</a></li><li><a href="#">Explosion Disclaimer</a></li></ul></div>
+  <div class="footer-grid">
+    <div>
+      <div style="display:inline-flex;align-items:center;gap:10px;"><div class="nav-icon"></div><span style="font-size:15px;font-weight:700;letter-spacing:.5px;">Global <span style="color:#33b1ff">Catalog</span></span></div>
+      <p class="fbrand-tagline">Next-generation radar intelligence for the world's most demanding missions. Headquartered in Geneva. Operating globally.</p>
+    </div>
+    <div class="fcol"><h4>Products</h4><ul><li><a href="#">AeroScan X9</a></li><li><a href="#">CoastalGuard M4</a></li><li><a href="#">StormEye WX-7</a></li><li><a href="#">SentryGround GS-3</a></li><li><a href="#">DroneShield DS-12</a></li></ul></div>
+    <div class="fcol"><h4>Company</h4><ul><li><a href="#">About Us</a></li><li><a href="#">Careers</a></li><li><a href="#">Press &amp; Media</a></li><li><a href="#">Partners</a></li><li><a href="#">Contact</a></li></ul></div>
+    <div class="fcol"><h4>Resources</h4><ul><li><a href="#">Documentation</a></li><li><a href="#">Datasheets</a></li><li><a href="#">Case Studies</a></li><li><a href="#">Export Compliance</a></li><li><a href="#">Support Portal</a></li></ul></div>
   </div>
-  <div class="footer-bottom"><p>&copy; 2026 ACME Corporation. All rights reserved. No roadrunners were harmed in the making of this website.</p><p><a href="#">Privacy</a> &middot; <a href="#">Terms</a> &middot; <a href="#">Cookie Settings</a></p></div>
+  <div class="fbot">
+    <p>&copy; 2026 Global Catalog Systems AG. All rights reserved. Export controlled &mdash; ITAR / EAR compliance required.</p>
+    <p><a href="#">Privacy</a> &middot; <a href="#">Terms</a> &middot; <a href="#">Export Policy</a></p>
+  </div>
 </footer>
 </body>
 </html>
