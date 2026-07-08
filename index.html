@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hello World – IBM Cloud</title>
+  <style>
+    :root {
+      --ibm-blue-60: #0043ce;
+      --ibm-blue-70: #002d9c;
+      --ibm-blue-10: #edf5ff;
+      --ibm-gray-100: #161616;
+      --ibm-gray-90: #262626;
+      --ibm-gray-80: #393939;
+      --ibm-gray-10: #f4f4f4;
+      --ibm-white: #ffffff;
+      --ibm-green-40: #42be65;
+      --ibm-cyan-40: #33b1ff;
+      --font: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font); background-color: var(--ibm-gray-100); color: var(--ibm-white); min-height: 100vh; display: flex; flex-direction: column; }
+    nav { background-color: var(--ibm-gray-90); border-bottom: 1px solid var(--ibm-gray-80); height: 48px; display: flex; align-items: center; padding: 0 16px; gap: 24px; }
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .ibm-logo { width: 40px; height: 16px; fill: var(--ibm-white); }
+    .nav-product { font-size: 14px; color: var(--ibm-white); font-weight: 400; border-left: 1px solid var(--ibm-gray-80); padding-left: 16px; letter-spacing: 0.16px; }
+    .nav-links { margin-left: auto; display: flex; gap: 0; }
+    .nav-links a { color: #c6c6c6; text-decoration: none; font-size: 14px; padding: 0 16px; height: 48px; display: flex; align-items: center; transition: background 0.1s, color 0.1s; }
+    .nav-links a:hover { background: var(--ibm-gray-80); color: var(--ibm-white); }
+    .hero { background: linear-gradient(135deg, #001141 0%, #0043ce 60%, #001d6c 100%); padding: 80px 64px; display: flex; align-items: center; gap: 64px; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(circle at 80% 50%, rgba(51,177,255,0.15) 0%, transparent 55%), radial-gradient(circle at 20% 80%, rgba(66,190,101,0.08) 0%, transparent 40%); }
+    .hero-text { position: relative; flex: 1; max-width: 560px; }
+    .hero-eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ibm-cyan-40); margin-bottom: 16px; }
+    .hero-title { font-size: clamp(36px, 5vw, 56px); font-weight: 300; line-height: 1.15; letter-spacing: -0.5px; margin-bottom: 24px; }
+    .hero-title strong { font-weight: 600; color: var(--ibm-cyan-40); }
+    .hero-subtitle { font-size: 18px; font-weight: 300; line-height: 1.6; color: rgba(255,255,255,0.75); margin-bottom: 40px; max-width: 440px; }
+    .btn-group { display: flex; gap: 16px; flex-wrap: wrap; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 24px; font-size: 14px; font-family: var(--font); font-weight: 600; cursor: pointer; border: none; text-decoration: none; transition: background 0.15s; letter-spacing: 0.16px; }
+    .btn-primary { background: var(--ibm-cyan-40); color: var(--ibm-gray-100); }
+    .btn-primary:hover { background: #1192e8; color: #fff; }
+    .btn-secondary { background: transparent; color: var(--ibm-white); border: 1px solid rgba(255,255,255,0.4); }
+    .btn-secondary:hover { background: rgba(255,255,255,0.08); }
+    .hero-badge { position: relative; width: 220px; height: 220px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+    .badge-ring { position: absolute; border-radius: 50%; border: 1px solid rgba(51,177,255,0.25); animation: pulse 3s ease-in-out infinite; }
+    .badge-ring:nth-child(1) { width: 220px; height: 220px; animation-delay: 0s; }
+    .badge-ring:nth-child(2) { width: 170px; height: 170px; animation-delay: 0.6s; }
+    .badge-ring:nth-child(3) { width: 120px; height: 120px; animation-delay: 1.2s; }
+    @keyframes pulse { 0%, 100% { opacity: 0.3; transform: scale(1); } 50% { opacity: 0.7; transform: scale(1.03); } }
+    .badge-center { width: 80px; height: 80px; background: rgba(51,177,255,0.15); border: 1px solid rgba(51,177,255,0.5); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; z-index: 1; }
+    .section { padding: 64px; background: var(--ibm-gray-100); }
+    .section-title { font-size: 28px; font-weight: 300; margin-bottom: 8px; color: var(--ibm-white); }
+    .section-subtitle { font-size: 14px; color: #8d8d8d; margin-bottom: 40px; letter-spacing: 0.16px; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1px; background: var(--ibm-gray-80); }
+    .card { background: var(--ibm-gray-90); padding: 32px 24px; display: flex; flex-direction: column; gap: 12px; transition: background 0.15s; cursor: default; position: relative; overflow: hidden; }
+    .card:hover { background: var(--ibm-gray-80); }
+    .card-icon { font-size: 28px; margin-bottom: 4px; }
+    .card-tag { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; width: fit-content; margin-bottom: 4px; }
+    .tag-blue { background: rgba(0,67,206,0.3); color: var(--ibm-cyan-40); }
+    .tag-green { background: rgba(66,190,101,0.2); color: var(--ibm-green-40); }
+    .tag-purple { background: rgba(138,63,215,0.2); color: #be95ff; }
+    .tag-teal { background: rgba(8,157,140,0.2); color: #3ddbd9; }
+    .card h3 { font-size: 18px; font-weight: 600; color: var(--ibm-white); letter-spacing: 0.16px; }
+    .card p { font-size: 14px; line-height: 1.6; color: #c6c6c6; }
+    .card-arrow { margin-top: auto; padding-top: 16px; font-size: 20px; color: var(--ibm-cyan-40); opacity: 0; transition: opacity 0.15s, transform 0.15s; transform: translateX(-4px); }
+    .card:hover .card-arrow { opacity: 1; transform: translateX(0); }
+    .status-bar { background: var(--ibm-gray-90); border-top: 1px solid var(--ibm-gray-80); padding: 24px 64px; display: flex; gap: 48px; flex-wrap: wrap; }
+    .status-item { display: flex; flex-direction: column; gap: 4px; }
+    .status-label { font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #8d8d8d; }
+    .status-value { font-size: 14px; color: var(--ibm-white); display: flex; align-items: center; gap: 6px; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ibm-green-40); box-shadow: 0 0 6px var(--ibm-green-40); animation: blink 2s ease-in-out infinite; }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+    footer { margin-top: auto; background: var(--ibm-gray-90); border-top: 1px solid var(--ibm-gray-80); padding: 24px 64px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+    footer p { font-size: 12px; color: #6f6f6f; letter-spacing: 0.32px; }
+    footer a { color: #6f6f6f; text-decoration: none; }
+    footer a:hover { color: var(--ibm-cyan-40); }
+    .footer-links { display: flex; gap: 24px; }
+    @media (max-width: 768px) { .hero { padding: 48px 24px; flex-direction: column; } .hero-badge { display: none; } .section { padding: 48px 24px; } .status-bar { padding: 24px; gap: 24px; } footer { padding: 24px; } }
+  </style>
+</head>
+<body>
+  <nav>
+    <a class="nav-logo" href="#">
+      <svg class="ibm-logo" viewBox="0 0 40 16" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 0h4v16H0zm6 0h4v2H6zm0 4h4v2H6zm0 4h4v2H6zm0 4h4v2H6zM12 0h6.5A7.5 7.5 0 0 1 26 7.5 7.5 7.5 0 0 1 18.5 15H12V0zm4 3v10h2a4.5 4.5 0 0 0 0-9h-2zm10-3h4v16h-4zm-4 4h3v2h-3zm0 4h3v2h-3z" fill="white"/>
+        <path d="M28 4h4v2h-4zm0 4h4v2h-4zm0 4h4v2h-4zm6-12h4v16h-4z" fill="white"/>
+      </svg>
+      <span class="nav-product">Cloud</span>
+    </a>
+    <div class="nav-links">
+      <a href="#">Docs</a>
+      <a href="#">Console</a>
+      <a href="#">Support</a>
+    </div>
+  </nav>
+  <div class="hero">
+    <div class="hero-text">
+      <p class="hero-eyebrow">IBM Code Engine · us-south</p>
+      <h1 class="hero-title">Hello, <strong>World</strong>.<br/>Welcome to IBM Cloud.</h1>
+      <p class="hero-subtitle">Your application is running on IBM Code Engine — a fully managed, serverless platform that lets you run your workloads without thinking about infrastructure.</p>
+      <div class="btn-group">
+        <a href="https://cloud.ibm.com/codeengine" class="btn btn-primary">Get started →</a>
+        <a href="https://cloud.ibm.com/docs/codeengine" class="btn btn-secondary">Read the docs</a>
+      </div>
+    </div>
+    <div class="hero-badge">
+      <div class="badge-ring"></div>
+      <div class="badge-ring"></div>
+      <div class="badge-ring"></div>
+      <div class="badge-center">☁️</div>
+    </div>
+  </div>
+  <div class="status-bar">
+    <div class="status-item"><span class="status-label">Status</span><span class="status-value"><span class="dot"></span> Running</span></div>
+    <div class="status-item"><span class="status-label">Platform</span><span class="status-value">IBM Code Engine</span></div>
+    <div class="status-item"><span class="status-label">Region</span><span class="status-value">us-south (Dallas)</span></div>
+    <div class="status-item"><span class="status-label">Runtime</span><span class="status-value">Serverless Container</span></div>
+    <div class="status-item"><span class="status-label">Revision</span><span class="status-value">hello-world-app-00002</span></div>
+  </div>
+  <div class="section">
+    <h2 class="section-title">Explore IBM Cloud</h2>
+    <p class="section-subtitle">Start building with the platform's most popular services</p>
+    <div class="cards">
+      <div class="card"><div class="card-icon">⚡</div><span class="card-tag tag-blue">Serverless</span><h3>Code Engine</h3><p>Deploy containerized apps, batch jobs, and event-driven functions — no Kubernetes expertise needed.</p><div class="card-arrow">→</div></div>
+      <div class="card"><div class="card-icon">🤖</div><span class="card-tag tag-purple">AI</span><h3>watsonx</h3><p>Build, scale, and govern AI with IBM's next-generation foundation models and machine learning tools.</p><div class="card-arrow">→</div></div>
+      <div class="card"><div class="card-icon">🗄️</div><span class="card-tag tag-teal">Data</span><h3>Cloud Databases</h3><p>Fully managed PostgreSQL, MongoDB, Redis, and more — with automated backups and high availability.</p><div class="card-arrow">→</div></div>
+      <div class="card"><div class="card-icon">🔒</div><span class="card-tag tag-green">Security</span><h3>Secrets Manager</h3><p>Centrally manage secrets, API keys, and certificates across your IBM Cloud workloads.</p><div class="card-arrow">→</div></div>
+    </div>
+  </div>
+  <footer>
+    <p>© 2026 IBM Corporation · hello-world-project</p>
+    <div class="footer-links"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Accessibility</a><a href="https://cloud.ibm.com">IBM Cloud Console</a></div>
+  </footer>
+</body>
+</html>
