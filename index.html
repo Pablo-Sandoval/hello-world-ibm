@@ -1,134 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Hello World – IBM Cloud</title>
   <style>
-    :root {
-      --ibm-blue-60: #0043ce;
-      --ibm-blue-70: #002d9c;
-      --ibm-blue-10: #edf5ff;
-      --ibm-gray-100: #161616;
-      --ibm-gray-90: #262626;
-      --ibm-gray-80: #393939;
-      --ibm-gray-10: #f4f4f4;
-      --ibm-white: #ffffff;
-      --ibm-green-40: #42be65;
-      --ibm-cyan-40: #33b1ff;
-      --font: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: var(--font); background-color: var(--ibm-gray-100); color: var(--ibm-white); min-height: 100vh; display: flex; flex-direction: column; }
-    nav { background-color: var(--ibm-gray-90); border-bottom: 1px solid var(--ibm-gray-80); height: 48px; display: flex; align-items: center; padding: 0 16px; gap: 24px; }
-    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-    .ibm-logo { width: 40px; height: 16px; fill: var(--ibm-white); }
-    .nav-product { font-size: 14px; color: var(--ibm-white); font-weight: 400; border-left: 1px solid var(--ibm-gray-80); padding-left: 16px; letter-spacing: 0.16px; }
-    .nav-links { margin-left: auto; display: flex; gap: 0; }
-    .nav-links a { color: #c6c6c6; text-decoration: none; font-size: 14px; padding: 0 16px; height: 48px; display: flex; align-items: center; transition: background 0.1s, color 0.1s; }
-    .nav-links a:hover { background: var(--ibm-gray-80); color: var(--ibm-white); }
-    .hero { background: linear-gradient(135deg, #001141 0%, #0043ce 60%, #001d6c 100%); padding: 80px 64px; display: flex; align-items: center; gap: 64px; position: relative; overflow: hidden; }
-    .hero::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(circle at 80% 50%, rgba(51,177,255,0.15) 0%, transparent 55%), radial-gradient(circle at 20% 80%, rgba(66,190,101,0.08) 0%, transparent 40%); }
-    .hero-text { position: relative; flex: 1; max-width: 560px; }
-    .hero-eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ibm-cyan-40); margin-bottom: 16px; }
-    .hero-title { font-size: clamp(36px, 5vw, 56px); font-weight: 300; line-height: 1.15; letter-spacing: -0.5px; margin-bottom: 24px; }
-    .hero-title strong { font-weight: 600; color: var(--ibm-cyan-40); }
-    .hero-subtitle { font-size: 18px; font-weight: 300; line-height: 1.6; color: rgba(255,255,255,0.75); margin-bottom: 40px; max-width: 440px; }
-    .btn-group { display: flex; gap: 16px; flex-wrap: wrap; }
-    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 24px; font-size: 14px; font-family: var(--font); font-weight: 600; cursor: pointer; border: none; text-decoration: none; transition: background 0.15s; letter-spacing: 0.16px; }
-    .btn-primary { background: var(--ibm-cyan-40); color: var(--ibm-gray-100); }
-    .btn-primary:hover { background: #1192e8; color: #fff; }
-    .btn-secondary { background: transparent; color: var(--ibm-white); border: 1px solid rgba(255,255,255,0.4); }
-    .btn-secondary:hover { background: rgba(255,255,255,0.08); }
-    .hero-badge { position: relative; width: 220px; height: 220px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
-    .badge-ring { position: absolute; border-radius: 50%; border: 1px solid rgba(51,177,255,0.25); animation: pulse 3s ease-in-out infinite; }
-    .badge-ring:nth-child(1) { width: 220px; height: 220px; animation-delay: 0s; }
-    .badge-ring:nth-child(2) { width: 170px; height: 170px; animation-delay: 0.6s; }
-    .badge-ring:nth-child(3) { width: 120px; height: 120px; animation-delay: 1.2s; }
-    @keyframes pulse { 0%, 100% { opacity: 0.3; transform: scale(1); } 50% { opacity: 0.7; transform: scale(1.03); } }
-    .badge-center { width: 80px; height: 80px; background: rgba(51,177,255,0.15); border: 1px solid rgba(51,177,255,0.5); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; z-index: 1; }
-    .section { padding: 64px; background: var(--ibm-gray-100); }
-    .section-title { font-size: 28px; font-weight: 300; margin-bottom: 8px; color: var(--ibm-white); }
-    .section-subtitle { font-size: 14px; color: #8d8d8d; margin-bottom: 40px; letter-spacing: 0.16px; }
-    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1px; background: var(--ibm-gray-80); }
-    .card { background: var(--ibm-gray-90); padding: 32px 24px; display: flex; flex-direction: column; gap: 12px; transition: background 0.15s; cursor: default; position: relative; overflow: hidden; }
-    .card:hover { background: var(--ibm-gray-80); }
-    .card-icon { font-size: 28px; margin-bottom: 4px; }
-    .card-tag { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; width: fit-content; margin-bottom: 4px; }
-    .tag-blue { background: rgba(0,67,206,0.3); color: var(--ibm-cyan-40); }
-    .tag-green { background: rgba(66,190,101,0.2); color: var(--ibm-green-40); }
-    .tag-purple { background: rgba(138,63,215,0.2); color: #be95ff; }
-    .tag-teal { background: rgba(8,157,140,0.2); color: #3ddbd9; }
-    .card h3 { font-size: 18px; font-weight: 600; color: var(--ibm-white); letter-spacing: 0.16px; }
-    .card p { font-size: 14px; line-height: 1.6; color: #c6c6c6; }
-    .card-arrow { margin-top: auto; padding-top: 16px; font-size: 20px; color: var(--ibm-cyan-40); opacity: 0; transition: opacity 0.15s, transform 0.15s; transform: translateX(-4px); }
-    .card:hover .card-arrow { opacity: 1; transform: translateX(0); }
-    .status-bar { background: var(--ibm-gray-90); border-top: 1px solid var(--ibm-gray-80); padding: 24px 64px; display: flex; gap: 48px; flex-wrap: wrap; }
-    .status-item { display: flex; flex-direction: column; gap: 4px; }
-    .status-label { font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #8d8d8d; }
-    .status-value { font-size: 14px; color: var(--ibm-white); display: flex; align-items: center; gap: 6px; }
-    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ibm-green-40); box-shadow: 0 0 6px var(--ibm-green-40); animation: blink 2s ease-in-out infinite; }
-    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-    footer { margin-top: auto; background: var(--ibm-gray-90); border-top: 1px solid var(--ibm-gray-80); padding: 24px 64px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
-    footer p { font-size: 12px; color: #6f6f6f; letter-spacing: 0.32px; }
-    footer a { color: #6f6f6f; text-decoration: none; }
-    footer a:hover { color: var(--ibm-cyan-40); }
-    .footer-links { display: flex; gap: 24px; }
-    @media (max-width: 768px) { .hero { padding: 48px 24px; flex-direction: column; } .hero-badge { display: none; } .section { padding: 48px 24px; } .status-bar { padding: 24px; gap: 24px; } footer { padding: 24px; } }
+    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600&display=swap');
+    :root { --bg:#0a0a0a; --cyan:#33b1ff; --green:#42be65; --purple:#be95ff; --yellow:#f1c21b; --white:#f4f4f4; --dim:#8d8d8d; --mono:'IBM Plex Mono',monospace; --sans:'IBM Plex Sans',sans-serif; }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { background:var(--bg); color:var(--white); font-family:var(--sans); min-height:100vh; overflow-x:hidden; }
+    #bg-canvas { position:fixed; inset:0; z-index:0; opacity:0.35; }
+    .page { position:relative; z-index:1; min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:40px 24px; gap:48px; }
+    .terminal { width:100%; max-width:680px; background:#161616; border:1px solid #393939; border-radius:4px; box-shadow:0 32px 80px rgba(0,0,0,0.6),0 0 0 1px rgba(51,177,255,0.08); overflow:hidden; animation:float 6s ease-in-out infinite; }
+    @keyframes float { 0%,100%{transform:translateY(0px)} 50%{transform:translateY(-10px)} }
+    .terminal-bar { background:#262626; padding:12px 16px; display:flex; align-items:center; gap:8px; border-bottom:1px solid #393939; }
+    .dot-red   { width:12px; height:12px; border-radius:50%; background:#da1e28; }
+    .dot-yellow{ width:12px; height:12px; border-radius:50%; background:#f1c21b; }
+    .dot-green { width:12px; height:12px; border-radius:50%; background:#42be65; }
+    .terminal-title { margin-left:auto; margin-right:auto; transform:translateX(-20px); font-family:var(--mono); font-size:12px; color:var(--dim); }
+    .terminal-body { padding:28px 32px; font-family:var(--mono); font-size:14px; line-height:1.9; }
+    .line { display:flex; align-items:baseline; gap:8px; opacity:0; }
+    .line.show { animation:fadein 0.4s forwards; }
+    @keyframes fadein { to { opacity:1; } }
+    .prompt { color:var(--green); flex-shrink:0; }
+    .cmd    { color:var(--white); }
+    .out    { color:var(--dim); padding-left:20px; }
+    .hi     { color:var(--cyan); font-weight:600; }
+    .ok     { color:var(--green); }
+    .purple { color:var(--purple); }
+    .cursor { display:inline-block; width:8px; height:16px; background:var(--cyan); margin-left:2px; vertical-align:middle; animation:blink 1s step-end infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+    .stats { display:flex; gap:32px; flex-wrap:wrap; justify-content:center; }
+    .stat { display:flex; flex-direction:column; align-items:center; gap:6px; opacity:0; animation:rise 0.6s forwards; }
+    .stat:nth-child(1){animation-delay:2.8s} .stat:nth-child(2){animation-delay:3.0s} .stat:nth-child(3){animation-delay:3.2s} .stat:nth-child(4){animation-delay:3.4s}
+    @keyframes rise { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+    .stat-value { font-family:var(--mono); font-size:28px; font-weight:600; color:var(--cyan); }
+    .stat-label { font-size:11px; font-weight:600; letter-spacing:1.2px; text-transform:uppercase; color:var(--dim); }
+    .badges { display:flex; gap:12px; flex-wrap:wrap; justify-content:center; opacity:0; animation:rise 0.6s 3.6s forwards; }
+    .badge { font-family:var(--mono); font-size:11px; font-weight:600; padding:4px 12px; border-radius:2px; letter-spacing:0.5px; }
+    .badge-blue   { background:rgba(51,177,255,0.12); color:var(--cyan);   border:1px solid rgba(51,177,255,0.3); }
+    .badge-green  { background:rgba(66,190,101,0.12); color:var(--green);  border:1px solid rgba(66,190,101,0.3); }
+    .badge-purple { background:rgba(190,149,255,0.12); color:var(--purple); border:1px solid rgba(190,149,255,0.3); }
+    .badge-yellow { background:rgba(241,194,27,0.12);  color:var(--yellow); border:1px solid rgba(241,194,27,0.3); }
+    footer { font-family:var(--mono); font-size:11px; color:#525252; text-align:center; letter-spacing:0.5px; opacity:0; animation:rise 0.6s 4s forwards; }
+    footer a { color:#525252; text-decoration:none; } footer a:hover { color:var(--cyan); }
+    @media(max-width:600px){ .terminal-body{padding:20px 16px;font-size:12px} .stat-value{font-size:22px} }
   </style>
 </head>
 <body>
-  <nav>
-    <a class="nav-logo" href="#">
-      <svg class="ibm-logo" viewBox="0 0 40 16" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0 0h4v16H0zm6 0h4v2H6zm0 4h4v2H6zm0 4h4v2H6zm0 4h4v2H6zM12 0h6.5A7.5 7.5 0 0 1 26 7.5 7.5 7.5 0 0 1 18.5 15H12V0zm4 3v10h2a4.5 4.5 0 0 0 0-9h-2zm10-3h4v16h-4zm-4 4h3v2h-3zm0 4h3v2h-3z" fill="white"/>
-        <path d="M28 4h4v2h-4zm0 4h4v2h-4zm0 4h4v2h-4zm6-12h4v16h-4z" fill="white"/>
-      </svg>
-      <span class="nav-product">Cloud</span>
-    </a>
-    <div class="nav-links">
-      <a href="#">Docs</a>
-      <a href="#">Console</a>
-      <a href="#">Support</a>
+<canvas id="bg-canvas"></canvas>
+<div class="page">
+  <div class="terminal">
+    <div class="terminal-bar">
+      <div class="dot-red"></div><div class="dot-yellow"></div><div class="dot-green"></div>
+      <span class="terminal-title">bash — hello-world-app</span>
     </div>
-  </nav>
-  <div class="hero">
-    <div class="hero-text">
-      <p class="hero-eyebrow">IBM Code Engine · us-south</p>
-      <h1 class="hero-title">Hello, <strong>World</strong>.<br/>Welcome to IBM Cloud.</h1>
-      <p class="hero-subtitle">Your application is running on IBM Code Engine — a fully managed, serverless platform that lets you run your workloads without thinking about infrastructure.</p>
-      <div class="btn-group">
-        <a href="https://cloud.ibm.com/codeengine" class="btn btn-primary">Get started →</a>
-        <a href="https://cloud.ibm.com/docs/codeengine" class="btn btn-secondary">Read the docs</a>
-      </div>
-    </div>
-    <div class="hero-badge">
-      <div class="badge-ring"></div>
-      <div class="badge-ring"></div>
-      <div class="badge-ring"></div>
-      <div class="badge-center">☁️</div>
-    </div>
+    <div class="terminal-body" id="term"></div>
   </div>
-  <div class="status-bar">
-    <div class="status-item"><span class="status-label">Status</span><span class="status-value"><span class="dot"></span> Running</span></div>
-    <div class="status-item"><span class="status-label">Platform</span><span class="status-value">IBM Code Engine</span></div>
-    <div class="status-item"><span class="status-label">Region</span><span class="status-value">us-south (Dallas)</span></div>
-    <div class="status-item"><span class="status-label">Runtime</span><span class="status-value">Serverless Container</span></div>
-    <div class="status-item"><span class="status-label">Revision</span><span class="status-value">hello-world-app-00002</span></div>
+  <div class="stats">
+    <div class="stat"><span class="stat-value" id="cnt-regions">0</span><span class="stat-label">Regions</span></div>
+    <div class="stat"><span class="stat-value">99.9%</span><span class="stat-label">Uptime SLA</span></div>
+    <div class="stat"><span class="stat-value">0→∞</span><span class="stat-label">Scale to Zero</span></div>
+    <div class="stat"><span class="stat-value" id="cnt-ms">~0ms</span><span class="stat-label">Cold Start</span></div>
   </div>
-  <div class="section">
-    <h2 class="section-title">Explore IBM Cloud</h2>
-    <p class="section-subtitle">Start building with the platform's most popular services</p>
-    <div class="cards">
-      <div class="card"><div class="card-icon">⚡</div><span class="card-tag tag-blue">Serverless</span><h3>Code Engine</h3><p>Deploy containerized apps, batch jobs, and event-driven functions — no Kubernetes expertise needed.</p><div class="card-arrow">→</div></div>
-      <div class="card"><div class="card-icon">🤖</div><span class="card-tag tag-purple">AI</span><h3>watsonx</h3><p>Build, scale, and govern AI with IBM's next-generation foundation models and machine learning tools.</p><div class="card-arrow">→</div></div>
-      <div class="card"><div class="card-icon">🗄️</div><span class="card-tag tag-teal">Data</span><h3>Cloud Databases</h3><p>Fully managed PostgreSQL, MongoDB, Redis, and more — with automated backups and high availability.</p><div class="card-arrow">→</div></div>
-      <div class="card"><div class="card-icon">🔒</div><span class="card-tag tag-green">Security</span><h3>Secrets Manager</h3><p>Centrally manage secrets, API keys, and certificates across your IBM Cloud workloads.</p><div class="card-arrow">→</div></div>
-    </div>
+  <div class="badges">
+    <span class="badge badge-blue">IBM Code Engine</span>
+    <span class="badge badge-green">✓ Serverless</span>
+    <span class="badge badge-purple">us-south · Dallas</span>
+    <span class="badge badge-yellow">revision 00003</span>
   </div>
   <footer>
-    <p>© 2026 IBM Corporation · hello-world-project</p>
-    <div class="footer-links"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Accessibility</a><a href="https://cloud.ibm.com">IBM Cloud Console</a></div>
+    © 2026 IBM Corporation &nbsp;·&nbsp;
+    <a href="https://github.com/Pablo-Sandoval/hello-world-ibm">github.com/Pablo-Sandoval/hello-world-ibm</a>
+    &nbsp;·&nbsp;
+    <a href="https://cloud.ibm.com/codeengine">cloud.ibm.com/codeengine</a>
   </footer>
+</div>
+<script>
+  const canvas=document.getElementById('bg-canvas'),ctx=canvas.getContext('2d');
+  let W,H,cols,rows;
+  function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;cols=Math.ceil(W/48);rows=Math.ceil(H/48);}
+  window.addEventListener('resize',resize);resize();
+  const cells=[];
+  function initCells(){cells.length=0;for(let r=0;r<=rows;r++)for(let c=0;c<=cols;c++)cells.push({x:c*48,y:r*48,a:Math.random(),s:0.2+Math.random()*0.8});}
+  initCells();
+  function drawGrid(t){
+    ctx.clearRect(0,0,W,H);
+    ctx.strokeStyle='rgba(51,177,255,0.06)';ctx.lineWidth=1;
+    for(let c=0;c<=cols;c++){ctx.beginPath();ctx.moveTo(c*48,0);ctx.lineTo(c*48,H);ctx.stroke();}
+    for(let r=0;r<=rows;r++){ctx.beginPath();ctx.moveTo(0,r*48);ctx.lineTo(W,r*48);ctx.stroke();}
+    cells.forEach(cell=>{
+      const pulse=(Math.sin(t*cell.s*0.001+cell.a*10)+1)/2;
+      ctx.beginPath();ctx.arc(cell.x,cell.y,1.5,0,Math.PI*2);
+      ctx.fillStyle=`rgba(51,177,255,${pulse*0.5})`;ctx.fill();
+    });
+  }
+  requestAnimationFrame(function loop(t){drawGrid(t);requestAnimationFrame(loop);});
+
+  const lines=[
+    {type:'cmd',prompt:'❯',text:'ibmcloud ce app get --name hello-world-app'},
+    {type:'out',text:''},
+    {type:'out',text:'<span class="hi">Name:</span>           hello-world-app'},
+    {type:'out',text:'<span class="hi">Project:</span>        hello-world-project'},
+    {type:'out',text:'<span class="hi">Region:</span>         <span class="purple">us-south (Dallas)</span>'},
+    {type:'out',text:'<span class="hi">Status:</span>         <span class="ok">✓ ready</span>'},
+    {type:'out',text:'<span class="hi">Revision:</span>       hello-world-app-00003'},
+    {type:'out',text:'<span class="hi">URL:</span>            <span style="color:#33b1ff">https://hello-world-app.2c20o2zjytt9.us-south...</span>'},
+    {type:'out',text:''},
+    {type:'cmd',prompt:'❯',text:'echo "Hello, World! 🌍"'},
+    {type:'out',text:'<span class="ok">Hello, World! 🌍</span>'},
+    {type:'out',text:''},
+    {type:'cursor'},
+  ];
+  const term=document.getElementById('term');
+  let delay=300;
+  lines.forEach(line=>{
+    setTimeout(()=>{
+      const div=document.createElement('div');div.classList.add('line');
+      if(line.type==='cmd') div.innerHTML=`<span class="prompt">${line.prompt}</span><span class="cmd">${line.text}</span>`;
+      else if(line.type==='out'){div.classList.add('out');div.innerHTML=line.text||'&nbsp;';}
+      else if(line.type==='cursor') div.innerHTML=`<span class="prompt">❯</span><span class="cursor"></span>`;
+      div.classList.add('show');term.appendChild(div);
+    },delay);
+    delay+=line.type==='cmd'?600:line.type==='out'&&line.text===''?100:250;
+  });
+  function countUp(el,target,suffix,duration){let s=0;const step=target/(duration/16);const t=setInterval(()=>{s=Math.min(s+step,target);el.textContent=Math.round(s)+suffix;if(s>=target)clearInterval(t);},16);}
+  setTimeout(()=>countUp(document.getElementById('cnt-regions'),6,'',800),2800);
+  setTimeout(()=>countUp(document.getElementById('cnt-ms'),350,'ms',1000),3200);
+</script>
 </body>
 </html>
